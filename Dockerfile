@@ -2,7 +2,7 @@ FROM openjdk:8-jdk-stretch
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
-ARG user=jenkins
+ARG user=root
 ARG group=jenkins
 ARG uid=1000
 ARG gid=1000
@@ -18,8 +18,8 @@ ENV JENKINS_SLAVE_AGENT_PORT ${agent_port}
 # ensure you use the same uid
 RUN mkdir -p $JENKINS_HOME \
   && chown ${uid}:${gid} $JENKINS_HOME \
-  && groupadd -g ${gid} ${group} \
-  && useradd -d "$JENKINS_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+  && groupadd -g ${gid} ${group} 
+#  && useradd -d "$JENKINS_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
 
 # Jenkins home directory is a volume, so configuration and build history
 # can be persisted and survive image upgrades
